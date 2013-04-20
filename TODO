@@ -1,1 +1,9 @@
-1) [ ] Add a readme
+1) [x] Add a readme
+2) [ ] Add usage to the README
+3) [ ] Add build/alias instructions in the README
+4) [ ] Add feature for timestamp task added and time done -- parsing woes
+5) [ ] fix issue for where there is no parent git dir
+6) [ ] maybe add a commit method
+7) [ ] issue with parsing backticks
+8) [ ] stat method, get longest running tasks method
+9) [ ] eventually add a version, binary
