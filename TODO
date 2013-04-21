@@ -8,3 +8,4 @@
 8) [ ] stat method, get longest running tasks method
 9) [ ] eventually add a version, binary
 10) [ ] allow adding and marking complete multiple items at a time
+11) [x] refactor type signatures in Actions
