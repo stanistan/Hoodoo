@@ -4,8 +4,10 @@ module Hoodoo.Fs
 ) where
 
 import System.Directory
-import System.IO.Error(catch)
 import Control.Applicative
+
+rootError = "Hoodoo is meant to be used in a git project" ++
+            "and reached the root directory looking for it."
 
 getTodos :: IO String
 getTodos = do
@@ -29,12 +31,20 @@ getGit = checkDir getCurrentDirectory
 checkDir :: IO FilePath -> IO FilePath
 checkDir path = do
   has <- dirHasGit path
+  root <- isPathRoot path
   if has
     then path
-    else checkDir (upDir <$> path)
+    else if root
+      then error rootError
+      else checkDir $ (upDir <$> path) >>= canonicalizePath
+
+isPathRoot :: IO FilePath -> IO Bool
+isPathRoot path = isRoot <$> path
 
 dirHasGit :: IO FilePath -> IO Bool
 dirHasGit path = hasGit <$> (path >>= getDirectoryContents)
+
+-- Helpers
 
 slash = (== '/')
 stripLastSlash = reverse . dropWhile slash . reverse
@@ -45,3 +55,6 @@ withTodo = (`appendTo` "/TODO")
 
 isGit = (== ".git")
 hasGit xs = foldl (\a b -> if a then a else isGit b) False xs
+
+isRoot = (== "/")
+
